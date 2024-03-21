@@ -3,6 +3,8 @@ import signal
 import sys
 import time
 
+
+
 def putcolor(color):
     if color == 'r':
         print("\033[1;31m", end='')
@@ -33,6 +35,7 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         putcolor('r')
@@ -40,11 +43,14 @@ if __name__ == "__main__":
         sys.exit(1)
 
     pid = int(sys.argv[1])
+    if pid <= 0:
+        print (f"PID {pid} Not Valid")
+        sys.exit(1)
     message = sys.argv[2]
 
     try:
         os.kill(pid, 0)
-    except OSError:
+    except (OSError , ValueError):
         putcolor('r')
         print(f"Process with PID {pid} does not exist.")
         sys.exit(1)
