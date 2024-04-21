@@ -3,8 +3,6 @@ import signal
 import sys
 import time
 
-
-
 def putcolor(color):
     if color == 'r':
         print("\033[1;31m", end='')
@@ -16,14 +14,12 @@ def putcolor(color):
         print("\033[0m", end='')
 
 def send_char(pid, char_code):
-    for i in range(8):
-        bit = (char_code >> i) & 1
-        if bit == 1:
+    for i in range(16):
+        if (char_code & (0x01 << i)):
             os.kill(pid, signal.SIGUSR1)
-        elif bit == 0:
+        else:
             os.kill(pid, signal.SIGUSR2)
         time.sleep(0.0005)
-        
 
 def sender(pid, msg):
     for char in msg:
@@ -35,7 +31,6 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         putcolor('r')
@@ -44,13 +39,13 @@ if __name__ == "__main__":
 
     pid = int(sys.argv[1])
     if pid <= 0:
-        print (f"PID {pid} Not Valid")
+        print(f"PID {pid} Not Valid")
         sys.exit(1)
     message = sys.argv[2]
 
     try:
         os.kill(pid, 0)
-    except (OSError , ValueError):
+    except (OSError, ValueError):
         putcolor('r')
         print(f"Process with PID {pid} does not exist.")
         sys.exit(1)
@@ -58,7 +53,7 @@ if __name__ == "__main__":
     try:
         time.sleep(1)
         sender(pid, message)
-        sender(pid , "\n")
+        sender(pid, "\n")
     except ProcessLookupError:
         putcolor('r')
         print("Error: Server process not found.")

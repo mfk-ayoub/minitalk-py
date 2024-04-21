@@ -5,12 +5,13 @@ from client import putcolor
 from logo import putbanner
 def handling(signum, frame):
     global i, c
+    mask =0x01
     if signum == signal.SIGUSR1:
-        c += 1 << i
+        c |= (mask << i);
     elif signum ==  signal.SIGUSR2:
         c += 0
     i += 1
-    if i == 8:
+    if i == 16:
         print(chr(c), end = '', flush=True)
         c = 0
         i = 0
