@@ -32,16 +32,15 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        putcolor('r')
-        print("Usage: python3 client.py <PID> <message>")
-        sys.exit(1)
+    putcolor('g')
+    pid = int(input("Enter PID of the server: \033[0m "))
+    putcolor('g')
+    message = input("Enter message to send: \033[0m ")
+    putcolor('d')
 
-    pid = int(sys.argv[1])
     if pid <= 0:
-        print(f"PID {pid} Not Valid")
+        print(f"PID {pid} is not valid")
         sys.exit(1)
-    message = sys.argv[2]
 
     try:
         os.kill(pid, 0)
