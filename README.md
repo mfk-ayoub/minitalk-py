@@ -23,7 +23,7 @@ This project implements a signal-based communication system between a server and
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mfk-ayoub/minitalk_42
+   git clone https://github.com/mfk-ayoub/minitalk-py
    ```
 2. Navigate to the project directory:
 	```bash
